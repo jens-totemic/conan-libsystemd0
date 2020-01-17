@@ -5,7 +5,7 @@ from conans.client.tools.oss import get_gnu_triplet
 class DebianDependencyConan(ConanFile):
     name = "libsystemd0"
     version = "229"
-    build_version = "4ubuntu21.22" 
+    build_version = "4ubuntu21.23" 
     homepage = "https://packages.ubuntu.com/xenial-updates/libsystemd0"
     # dev_url = https://packages.ubuntu.com/xenial-updates/libsystemd-dev
     description = "Systemd is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system."
@@ -17,7 +17,7 @@ class DebianDependencyConan(ConanFile):
         if self.settings.os == "Linux":
             # todo: we should also add depdencies to libselinux.so.1, liblzma.so.5, libgcrypt.so.20
             # right now this is handled by telling the linker to ignore unknown symbols in secondary dependencies
-            self.requires("libudev1/229@totemic/stable")
+            self.requires("libudev1/237@totemic/stable")
 
     def translate_arch(self):
         arch_string = str(self.settings.arch)
@@ -53,9 +53,9 @@ class DebianDependencyConan(ConanFile):
         if self.settings.os == "Linux":
             if self.settings.arch == "x86_64":
                 # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd0/download
-                sha_lib = "9b4a9a00643480f6ba23edeb2469f018aa90165e9dbf6eff22f96a81dfaf6a65"
+                sha_lib = "eca9517ee59fe7127b34979c3229bd0ac07624fe8a4cb342d92e6b6e80c44a21"
                 # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd-dev/download
-                sha_dev = "c23881cb235faa2cd93c1bf5eada365b096da19b60d042be79ebb84f2469a798"
+                sha_dev = "f249bec4c5d793e1fda333cf56d200437a6473a26be396240d5213e76195bd69"
                 
                 url_lib = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -63,9 +63,9 @@ class DebianDependencyConan(ConanFile):
                    % (str(self.version), self.build_version, self.translate_arch()))
             elif self.settings.arch == "armv8":
                 # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd0/download
-                sha_lib = "bdef329d462207a7e9f106f5bed81e700940499960f7880e170dff7f8f4e34dd"
+                sha_lib = "4b628921c35401b92d8cd78b5b335c22a50f978fe5102531651434e6583d2aba"
                 # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd-dev/download
-                sha_dev = "7db0bcbf826ccadc85171cae2921e9face2d81d43c01c78efbadb288841a09e9"
+                sha_dev = "dde38e57c8550fde5144d70f093be007bb30037f473caaeeb2e9c1a3b7ace50c"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -73,9 +73,9 @@ class DebianDependencyConan(ConanFile):
                    % (str(self.version), self.build_version, self.translate_arch()))
             else: # armv7hf
                 # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd0/download
-                sha_lib = "e50b52bba07c6cf43bd7b38aec483bd807ba949a8802c0d0a507d1238eb5ee01"
+                sha_lib = "4453f0cc0c7958078ad39a66a16abff326413936d324cfd823f0ca37f05754a1"
                 # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd-dev/download
-                sha_dev = "a5df21248408afd84d49a5f5466f8afa998fc6feecaf6a41520b04a87f2462b6"
+                sha_dev = "bec1c3e22e61417af6306a681a9358f3b1e1189bba98208be8b4f1e67defa8dc"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
