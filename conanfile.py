@@ -5,7 +5,7 @@ from conans.client.tools.oss import get_gnu_triplet
 class DebianDependencyConan(ConanFile):
     name = "libsystemd0"
     version = "229"
-    build_version = "4ubuntu21.23" 
+    build_version = "4ubuntu21.27" 
     homepage = "https://packages.ubuntu.com/xenial-updates/libsystemd0"
     # dev_url = https://packages.ubuntu.com/xenial-updates/libsystemd-dev
     description = "Systemd is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system."
@@ -53,9 +53,9 @@ class DebianDependencyConan(ConanFile):
         if self.settings.os == "Linux":
             if self.settings.arch == "x86_64":
                 # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd0/download
-                sha_lib = "eca9517ee59fe7127b34979c3229bd0ac07624fe8a4cb342d92e6b6e80c44a21"
+                sha_lib = "34d152b347b7275161369f1987d0ece1d0245d4d30f9401b71d360c1a5df3101"
                 # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd-dev/download
-                sha_dev = "f249bec4c5d793e1fda333cf56d200437a6473a26be396240d5213e76195bd69"
+                sha_dev = "0e36146ac9b724c03abcdae63db8de8054bd3f3a38259d79976897a23f9ee267"
                 
                 url_lib = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -63,9 +63,9 @@ class DebianDependencyConan(ConanFile):
                    % (str(self.version), self.build_version, self.translate_arch()))
             elif self.settings.arch == "armv8":
                 # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd0/download
-                sha_lib = "4b628921c35401b92d8cd78b5b335c22a50f978fe5102531651434e6583d2aba"
+                sha_lib = "48ea357fff1231011ff311b616352bdf787eddb5ff7770890f67d7fdaa6214f7"
                 # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd-dev/download
-                sha_dev = "dde38e57c8550fde5144d70f093be007bb30037f473caaeeb2e9c1a3b7ace50c"
+                sha_dev = "7f465179ec3de83d31c9babcd033386894e82b6da67e95b8368e028b32a0d255"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -73,9 +73,9 @@ class DebianDependencyConan(ConanFile):
                    % (str(self.version), self.build_version, self.translate_arch()))
             else: # armv7hf
                 # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd0/download
-                sha_lib = "4453f0cc0c7958078ad39a66a16abff326413936d324cfd823f0ca37f05754a1"
+                sha_lib = "d09c8b48c283c100f764b5d46dc15b09aa20607ade9e8407d7b80ce3de4dadd6"
                 # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd-dev/download
-                sha_dev = "bec1c3e22e61417af6306a681a9358f3b1e1189bba98208be8b4f1e67defa8dc"
+                sha_dev = "4a1d8727ea87df5d6a61da4b7d81b623c208c3467fadc5948855d94aadf68c14"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -112,6 +112,12 @@ class DebianDependencyConan(ConanFile):
             self.output.info("package info file: " + pkgconfigpath)
             with tools.environment_append({'PKG_CONFIG_PATH': pkgconfigpath}):
                 pkg_config = tools.PkgConfig("libsystemd", variables={ "prefix" : self.package_folder } )
+
+                # if self.settings.compiler == 'gcc':
+                #     # Allow executables consuming this package to ignore missing secondary dependencies at compile time
+                #     # needed so we can use libsystemd.so withouth providing a couple of secondary library dependencies
+                #     # http://www.kaizou.org/2015/01/linux-libraries.html
+                #     self.cpp_info.exelinkflags.extend(['-Wl,--unresolved-symbols=ignore-in-shared-libs'])
 
                 self.output.info("lib_paths %s" % self.cpp_info.lib_paths)
 
