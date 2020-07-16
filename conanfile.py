@@ -4,10 +4,10 @@ from conans.client.tools.oss import get_gnu_triplet
 
 class DebianDependencyConan(ConanFile):
     name = "libsystemd0"
-    version = "229"
-    build_version = "4ubuntu21.27" 
-    homepage = "https://packages.ubuntu.com/xenial-updates/libsystemd0"
-    # dev_url = https://packages.ubuntu.com/xenial-updates/libsystemd-dev
+    version = "237"
+    build_version = "3ubuntu10.41" 
+    homepage = "https://packages.ubuntu.com/bionic-updates/libsystemd0"
+    # dev_url = https://packages.ubuntu.com/bionic-updates/libsystemd-dev
     description = "Systemd is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system."
     url = "https://github.com/jens-totemic/conan-libsystemd0"    
     license = "LGPL"
@@ -52,30 +52,30 @@ class DebianDependencyConan(ConanFile):
     def build(self):
         if self.settings.os == "Linux":
             if self.settings.arch == "x86_64":
-                # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd0/download
-                sha_lib = "34d152b347b7275161369f1987d0ece1d0245d4d30f9401b71d360c1a5df3101"
-                # https://packages.ubuntu.com/xenial-updates/amd64/libsystemd-dev/download
-                sha_dev = "0e36146ac9b724c03abcdae63db8de8054bd3f3a38259d79976897a23f9ee267"
+                # https://packages.ubuntu.com/bionic-updates/amd64/libsystemd0/download
+                sha_lib = "42c543b2a8615398e8f32e98a2ce4e0ac8d705c474aa9ad6b87b4fa1f80ce049"
+                # https://packages.ubuntu.com/bionic-updates/amd64/libsystemd-dev/download
+                sha_dev = "42a868b9eca64f3cdfa20a11555e498b40dedbba26498cf7cc009a42de23adc1"
                 
                 url_lib = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
                 url_dev = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd-dev_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
             elif self.settings.arch == "armv8":
-                # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd0/download
-                sha_lib = "48ea357fff1231011ff311b616352bdf787eddb5ff7770890f67d7fdaa6214f7"
-                # https://packages.ubuntu.com/xenial-updates/arm64/libsystemd-dev/download
-                sha_dev = "7f465179ec3de83d31c9babcd033386894e82b6da67e95b8368e028b32a0d255"
+                # https://packages.ubuntu.com/bionic-updates/arm64/libsystemd0/download
+                sha_lib = "bf33f6d2e07d08dbe76296d2a2853953189f769fc1ff83b25a558fce1956a643"
+                # https://packages.ubuntu.com/bionic-updates/arm64/libsystemd-dev/download
+                sha_dev = "aa203c71fe86273975d06dea37535f065ff77eed59a9d6965ca0a8e2fc2ed809"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
                 url_dev = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd-dev_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
             else: # armv7hf
-                # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd0/download
-                sha_lib = "d09c8b48c283c100f764b5d46dc15b09aa20607ade9e8407d7b80ce3de4dadd6"
-                # https://packages.ubuntu.com/xenial-updates/armhf/libsystemd-dev/download
-                sha_dev = "4a1d8727ea87df5d6a61da4b7d81b623c208c3467fadc5948855d94aadf68c14"
+                # https://packages.ubuntu.com/bionic-updates/armhf/libsystemd0/download
+                sha_lib = "4f2ba5f3a67166d39f1f7835cd40945c691580abba019d8a0160d46bda672688"
+                # https://packages.ubuntu.com/bionic-updates/armhf/libsystemd-dev/download
+                sha_dev = "d684a2ef009406bfcd5df95cd33d43ddc5d1fcd6f3073b0dc5df6fe9970565d8"
                 
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
@@ -84,9 +84,9 @@ class DebianDependencyConan(ConanFile):
             self._download_extract_deb(url_lib, sha_lib)
             self._download_extract_deb(url_dev, sha_dev)
             # remove libsystemd.so which is an absolute link to /lib/aarch64-linux-gnu/libsystemd.so.0.14.0
-            libsystemd_so_path = "usr/lib/%s/libsystemd.so" % self.triplet_name()
-            os.remove(libsystemd_so_path)
-            os.symlink("libsystemd.so.0.14.0", libsystemd_so_path)
+            # libsystemd_so_path = "lib/%s/libsystemd.so" % self.triplet_name()
+            # os.remove(libsystemd_so_path)
+            # os.symlink("libsystemd.so.0.21.0", libsystemd_so_path)
         else:
             # We allow using systemd on all platforms, but for anything except Linux nothing is produced
             # this allows unconditionally including this conan package on all platforms
