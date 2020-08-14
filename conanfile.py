@@ -4,12 +4,12 @@ from conans.client.tools.oss import get_gnu_triplet
 
 class DebianDependencyConan(ConanFile):
     name = "libsystemd0"
-    version = "237"
-    build_version = "3ubuntu10.41" 
+    version = "246"
+    build_version = "2ubuntu1"
     homepage = "https://packages.ubuntu.com/bionic-updates/libsystemd0"
     # dev_url = https://packages.ubuntu.com/bionic-updates/libsystemd-dev
     description = "Systemd is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system."
-    url = "https://github.com/jens-totemic/conan-libsystemd0"    
+    url = "https://github.com/jens-totemic/conan-libsystemd0"
     license = "LGPL"
     settings = "os", "arch"
 
@@ -29,7 +29,7 @@ class DebianDependencyConan(ConanFile):
         elif (arch_string) == "x86_64":
             return "amd64"
         return arch_string
-        
+
     def _download_extract_deb(self, url, sha256):
         filename = "./download.deb"
         deb_data_file = "data.tar.xz"
@@ -48,35 +48,35 @@ class DebianDependencyConan(ConanFile):
         # construct path using platform name, e.g. usr/lib/arm-linux-gnueabihf/pkgconfig
         # if not cross-compiling it will be false. In that case, construct the name by hand
         return autotools.host or get_gnu_triplet(str(self.settings.os), str(self.settings.arch), self.settings.get_safe("compiler"))
-        
+
     def build(self):
         if self.settings.os == "Linux":
             if self.settings.arch == "x86_64":
                 # https://packages.ubuntu.com/bionic-updates/amd64/libsystemd0/download
-                sha_lib = "42c543b2a8615398e8f32e98a2ce4e0ac8d705c474aa9ad6b87b4fa1f80ce049"
+                sha_lib = "26be10202d0b2ab265944d8f20414f6a0de73a86a7a560ac1fa8c90a901c8f24"
                 # https://packages.ubuntu.com/bionic-updates/amd64/libsystemd-dev/download
-                sha_dev = "42a868b9eca64f3cdfa20a11555e498b40dedbba26498cf7cc009a42de23adc1"
-                
+                sha_dev = "7c366124839de5c2ba4443b6c3e52d1067ca79af5de3b493daab1a992fd0d071"
+
                 url_lib = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
                 url_dev = ("http://us.archive.ubuntu.com/ubuntu/pool/main/s/systemd/libsystemd-dev_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
             elif self.settings.arch == "armv8":
                 # https://packages.ubuntu.com/bionic-updates/arm64/libsystemd0/download
-                sha_lib = "bf33f6d2e07d08dbe76296d2a2853953189f769fc1ff83b25a558fce1956a643"
+                sha_lib = "b883db0c15c84939cb5be1a57439cf0b47099d7f5063715ee1da4a39cacd817a"
                 # https://packages.ubuntu.com/bionic-updates/arm64/libsystemd-dev/download
-                sha_dev = "aa203c71fe86273975d06dea37535f065ff77eed59a9d6965ca0a8e2fc2ed809"
-                
+                sha_dev = "7a3bc5dc1de5f599dd942ac9fa495e6c686e5d89db2ab52210f7bf46834dc27c"
+
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
                 url_dev = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd-dev_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
             else: # armv7hf
                 # https://packages.ubuntu.com/bionic-updates/armhf/libsystemd0/download
-                sha_lib = "4f2ba5f3a67166d39f1f7835cd40945c691580abba019d8a0160d46bda672688"
+                sha_lib = "47bae3683084d42ca49e9fea94c03f552c22499f2e72ffd942cee3aa14c45a5a"
                 # https://packages.ubuntu.com/bionic-updates/armhf/libsystemd-dev/download
-                sha_dev = "d684a2ef009406bfcd5df95cd33d43ddc5d1fcd6f3073b0dc5df6fe9970565d8"
-                
+                sha_dev = "5959d5fd2121956ff29e611ba0617cedff814d7835bdc82613ff68412f5b4073"
+
                 url_lib = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd0_%s-%s_%s.deb"
                    % (str(self.version), self.build_version, self.translate_arch()))
                 url_dev = ("http://ports.ubuntu.com/ubuntu-ports/pool/main/s/systemd/libsystemd-dev_%s-%s_%s.deb"
